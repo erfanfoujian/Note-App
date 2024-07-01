@@ -1,12 +1,8 @@
-import { useNotes } from "../context/NotesContext";
-
-function NoteStatus() {
-  const notes = useNotes();
-
+function NoteStatus({ notes }) {
   const allNotes = notes.length;
   const completedNotes = notes.filter((note) => note.completed).length;
   const unCompletedNotes = allNotes - completedNotes;
-  if (!allNotes) return <h2>No Notes has already been added</h2>;
+  if(!allNotes)return <h2>No Notes has already been added</h2>
   return (
     <ul className="note-status">
       <li>

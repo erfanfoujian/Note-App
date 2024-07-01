@@ -1,8 +1,4 @@
-import { useNotes, useNotesDispatch } from "../context/NotesContext";
-
-function NoteList({ onDelete, onComplete, sortBy }) {
-  const notes = useNotes();
-
+function NoteList({ notes, OnDelete, onCompleted, sortBy }) {
   let sortedNotes = notes;
   if (sortBy === "earliest")
     sortedNotes = [...notes].sort(
@@ -24,47 +20,42 @@ function NoteList({ onDelete, onComplete, sortBy }) {
   return (
     <div className="note-list">
       {sortedNotes.map((note) => {
-        return <NoteItem key={note.id} note={note} />;
+        return (
+          <NoteItem
+            key={note.id}
+            note={note}
+            OnDelete={OnDelete}
+            onCompleted={onCompleted}
+          />
+        );
       })}
     </div>
   );
 }
 
 export default NoteList;
-function NoteItem({ note }) {
-  const dispatch = useNotesDispatch();
-
+function NoteItem({ note, OnDelete, onCompleted }) {
   const options = {
     year: "numeric",
     month: "long",
     day: "numeric",
   };
   return (
-    <div
-      className={`note-item ${note.completed ? "completed" : ""}`}
-      data-testid="note-item"
-    >
+    <div className={`note-item ${note.completed ? "completed" : ""}`}>
       <div className="note-item__header">
         <div>
           <p className="title">{note.title}</p>
           <p className="desc">{note.description}</p>
         </div>
         <div className="actions">
-          <button
-            onClick={() => dispatch({ type: "delete", payload: note.id })}
-          >
-            ❌
-          </button>
+          <button onClick={() => OnDelete(note.id)}>❌</button>
           <input
             type="checkbox"
             name={note.id}
             id={note.id}
             value={note.id}
             checked={note.completed}
-            onChange={(e) => {
-              const noteId = Number(e.target.value);
-              dispatch({ type: "complete", payload: noteId });
-            }}
+            onChange={onCompleted}
           />
         </div>
       </div>

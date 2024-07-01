@@ -1,7 +1,4 @@
-import { useNotes } from "../context/NotesContext";
-
-function NoteHeader({ sortBy, onSort }) {
-  const notes = useNotes();
+function NoteHeader({ notes,sortBy,onSort }) {
   return (
     <div className="note-header">
       <h1>My Notes ({notes.length})</h1>

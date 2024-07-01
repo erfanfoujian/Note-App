@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useNotesDispatch } from "../context/NotesContext";
 
-function AddNewNote() {
-  const dispatch = useNotesDispatch();
+function AddNewNote({ onAddNote }) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDecription] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title || !description) return null;
@@ -15,9 +13,9 @@ function AddNewNote() {
       completed: false,
       createdAt: new Date(),
     };
-    dispatch({ type: "add", payload: newNote });
+    onAddNote(newNote);
     setTitle("");
-    setDescription("");
+    setDecription("");
   };
   return (
     <div className="add-new-note">
@@ -35,7 +33,7 @@ function AddNewNote() {
           className="text-field"
           placeholder="Note description ..."
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setDecription(e.target.value)}
         />
         <button type="submit" className="btn btn--primary">
           Add New Note
